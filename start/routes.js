@@ -27,4 +27,5 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('get-all-address', 'ApiKasirPintarController.getAllAddress').middleware(['auth:jwt'])
+  Route.post('get-specific-id', 'ApiKasirPintarController.getSpecificID').middleware(['auth:jwt'])
 }).prefix('api/v1')

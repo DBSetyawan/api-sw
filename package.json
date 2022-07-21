@@ -28,7 +28,9 @@
     "circular-json": "^0.5.9",
     "flatted": "^3.2.6",
     "mysql": "^2.18.1",
-    "sqlite3": "^5.0.9"
+    "querystring": "^0.2.1",
+    "sqlite3": "^5.0.9",
+    "url-search-params": "^1.1.0"
   },
   "autoload": {
     "App": "./app"
