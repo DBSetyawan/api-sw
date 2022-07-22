@@ -30,3 +30,6 @@ Route.group(() => {
   Route.get('get-specific-id', 'ApiKasirPintarController.getSpecificID').middleware(['auth:jwt'])
   Route.get('get-specific-kota-kecamatan', 'ApiKasirPintarController.getSpecificKotaKecamatan').middleware(['auth:jwt'])
 }).prefix('api/v1')
+
+Route.resource('permission', 'PermissionController').middleware('auth:jwt')
+Route.resource('roles', 'RoleController').apiOnly().middleware('auth:jwt')
