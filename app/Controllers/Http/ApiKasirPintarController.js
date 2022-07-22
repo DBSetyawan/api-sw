@@ -28,7 +28,7 @@ class ApiKasirPintarController {
                 const responseObject = JSON.parse(json);
                 const data_response = responseObject.data.address_kecamatan.find(record => record.id === id)
             
-                response.status(200).json({ 'nama': data_response.nama })
+                response.status(200).json({ status: 'data', data: { nama : data_response.nama } })
               
             }).catch((error) => {
             
@@ -45,22 +45,40 @@ class ApiKasirPintarController {
 
     async getSpecificKotaKecamatan({request, response }) { 
 
+        function isEmptyObject(obj) {
+            for (const key in obj) {
+                if (Object.hasOwn(obj, key)) { // Remove this if you want to check for
+                                            // enumerable inherited properties
+                    return false;
+                }
+            }
+            return true;
+        }
+        
         const axios = use('axios');
         const { kota_id } = request.all()
         const CircularJSON = require('circular-json');
-        await axios.get('https://kasirpintar.co.id/allAddress.txt').
+        const specAddress = await axios.get('https://kasirpintar.co.id/allAddress.txt').
                 then(data => {
                     let json = CircularJSON.stringify(data);
                     const responseObject = JSON.parse(json);
-                    let data_response = responseObject.data.address_kecamatan.filter( record => record.kota_id === kota_id)
-                    let result = response.send(data_response)
-                        
-                    return result
+                    let data_response = responseObject.data.address_kecamatan.filter(record => record.kota_id === kota_id)
+                    
+                    return data_response
+                    
             }).catch((error)=>{
                 return error
             }
         );
+        const newObj = specAddress || {}
+        var result = Object.keys(newObj).map(function(key) {
+               return newObj[key];
+        });
 
+        if (Object.keys(result).length === 0) { 
+            return 'asdadasda';
+        }
+        return result
     }
 }
 
