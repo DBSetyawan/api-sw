@@ -1,6 +1,4 @@
 'use strict'
-const { InvalidArgumentException } = require('@adonisjs/generic-exceptions')
-
 class ApiKasirPintarController {
     
     async getAllAddress({ response}) {
@@ -45,16 +43,6 @@ class ApiKasirPintarController {
 
     async getSpecificKotaKecamatan({request, response }) { 
 
-        function isEmptyObject(obj) {
-            for (const key in obj) {
-                if (Object.hasOwn(obj, key)) { // Remove this if you want to check for
-                                            // enumerable inherited properties
-                    return false;
-                }
-            }
-            return true;
-        }
-        
         const axios = use('axios');
         const { kota_id } = request.all()
         const CircularJSON = require('circular-json');
@@ -76,7 +64,7 @@ class ApiKasirPintarController {
         });
 
         if (Object.keys(result).length === 0) { 
-            return 'asdadasda';
+            return 'Data tidak ditemukan.';
         }
         return result
     }
