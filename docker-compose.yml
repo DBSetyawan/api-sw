@@ -1,0 +1,55 @@
+# Docker-compose file for API kasir pintar
+# Prepared by daniel budi setyawan
+
+  version: '3.8'
+
+  services:
+    adonis_app:
+      container_name: adonis_app
+      restart: always
+      build:
+        args:
+          user: ${UID}:${GID}
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "${PORT}:80"
+      env_file:
+        - ./kasirpintar/services/.env
+      volumes:
+        - ./kasirpintar/services:/srv/app
+        - app_node_modules:/srv/app/node_modules
+      depends_on:
+        - db_kasirpintar
+      networks:
+        - app-networks
+
+    db_kasirpintar:
+      image: mysql:5.7.22
+      container_name: db_kasirpintar
+      restart: unless-stopped
+      tty: true
+      ports:
+        - "3321:3306"
+      environment:
+        MYSQL_DATABASE: api_backend
+        MYSQL_ROOT_PASSWORD: daniel
+        SERVICE_TAGS: dev
+        SERVICE_NAME: mysql
+      volumes:
+        - dbdata:/var/lib/mysql
+        - ./mysql/my.cnf:/etc/mysql/my.cnf
+      networks:
+        - app-networks
+
+  #Volumes
+  volumes:
+    app_node_modules:
+    dbdata:
+      driver: local
+  
+  #Docker Networks
+  networks:
+      app-networks:
+        driver: bridge
+            
