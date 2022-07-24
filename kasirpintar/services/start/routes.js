@@ -26,11 +26,11 @@ Route.group(() => {
 
 
 Route.group(() => {
-  Route.get('get-all-address', 'ApiKasirPintarController.getAllAddress').middleware(['auth:jwt'])
+  Route.get('get-all-address', 'ApiKasirPintarController.getAllAddress').middleware(['auth:jwt','is:(administrator)'])
   Route.get('get-specific-id', 'ApiKasirPintarController.getSpecificID').middleware(['auth:jwt','is:(administrator)'])
-  Route.get('get-current-roles-user', 'AuthController.getCurrentUser').middleware(['auth:jwt'])
-  Route.put('update-user/:id', 'AuthController.AssignRole').middleware(['auth:jwt'])
-  Route.get('get-specific-kota-kecamatan', 'ApiKasirPintarController.getSpecificKotaKecamatan').middleware(['auth:jwt'])
+  Route.get('get-current-roles-user', 'AuthController.getCurrentUser').middleware(['auth:jwt','is:(administrator)'])
+  Route.put('update-user/:id', 'AuthController.AssignRole').middleware(['auth:jwt','is:(administrator)'])
+  Route.get('get-specific-kota-kecamatan', 'ApiKasirPintarController.getSpecificKotaKecamatan').middleware(['auth:jwt','is:(administrator)'])
 }).prefix('api/v1')
 
 Route.resource('permission', 'PermissionController').middleware('auth:jwt')
