@@ -6,7 +6,7 @@ var pm2Config = {
       exec_mode: "cluster_mode",
       instances: 1,
       watch: false,
-      ignore_watch: ["./node_modules", ".git", "tmp", "./Dockerfile"],
+      ignore_watch: ["node_modules", ".git", "tmp", "./kasirpintar/services/Dockerfile"],
     },
   ],
 };

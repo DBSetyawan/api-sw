@@ -1,30 +1,23 @@
-FROM node:12.18.2-alpine3.9
+# We'll use the Node slim image as a base cos it's light and nice
+FROM node:10-alpine
 
-ARG user
-ARG uid
+WORKDIR /usr/src/app
 
-RUN mkdir /srv/app && chown node:node /srv/app
+# Copy package.json & package-lock.json to the root of the api dir
+COPY ./kasirpintar/services/package.json ./kasirpintar/services/package-lock.json ./
 
-RUN npm install -g @adonisjs/cli
-RUN npm install -g nodemon
+# Add node_modules to the envionmental path variable so we can run binaries easily
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-USER node
-
-WORKDIR /srv/app
-
-COPY --chown=node:node /kasirpintar/services/package.json /kasirpintar/services/package-lock.json ./
-
-RUN npm install --quiet
-
-# TODO: Can remove once we have some dependencies in package.json.
-RUN mkdir -p node_modules
-
-COPY . .
-
-RUN cp .env.xample .env
-
-#to run node.js script with sudo as we want to listen on port 80
 USER root
-EXPOSE 80
 
-CMD ["npm","start"]
+# Install the good ol' NPM modules and get Adonis CLI in the game
+RUN npm install --no-optional
+RUN npm i -g pm2
+
+# Copy everything to the root of the API service docker volume, and expose port to the outside world
+COPY --chown=node:node . .
+
+EXPOSE 1379
+
+CMD npm run pm2:start

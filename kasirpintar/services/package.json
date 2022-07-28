@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "test": "node ace test",
+    "dev": "node ace serve --dev",
+    "pm2:start": "pm2 start pm2.config.js --no-daemon"
   },
   "keywords": [
     "adonisjs",

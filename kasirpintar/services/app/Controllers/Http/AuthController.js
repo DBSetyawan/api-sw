@@ -1,5 +1,5 @@
 'use strict'
-const User = use('App/Models/User')
+const User = use('kasirpintar/services/App/Models/User')
 const Role = use('Role')
 const Permission = use('Permission');
 
@@ -23,7 +23,7 @@ class AuthController {
 
         }
     
-        async AssignRole({ auth, response }) { 
+        async AssignRole({ auth, response, params }) { 
 
             const role = await Role.findOrFail(params.id)
             const user = await User.findOrFail(params.id)
